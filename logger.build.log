@@ -1,1 +1,0 @@
-Invoking: rimraf ./dist/ && tsc --skipLibCheck 

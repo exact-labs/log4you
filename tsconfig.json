@@ -1,13 +1,13 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2021",
-    "sourceMap": true,
-    "declaration": true,
-    "outDir": "./dist",
-    "esModuleInterop": true
-  },
-  "include": [
-    "src/**/*"
-  ]
+	"compilerOptions": {
+		"module": "es2022",
+		"target": "es2022",
+		"types": ["node"],
+		"sourceMap": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"esModuleInterop": true,
+		"outDir": "./dist"
+	},
+	"include": ["src/**/*"]
 }
