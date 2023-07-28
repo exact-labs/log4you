@@ -1,0 +1,20 @@
+{
+	"name": "log4you",
+	"version": "0.1.0",
+	"description": "A simple and easy to use logger",
+	"keywords": [
+		"logger"
+	],
+	"license": "MIT",
+	"author": "theMackabu",
+	"main": "dist/logger.js",
+	"types": "dist/logger.d.ts",
+	"scripts": {
+		"build": "rimraf ./dist/ && tsc --skipLibCheck"
+	},
+	"devDependencies": {
+		"@types/node": "^16.11.6",
+		"rimraf": "^2.6.2",
+		"typescript": "^5.1.6"
+	}
+}
