@@ -23,6 +23,7 @@ const colorize = (text: string): string =>
 const renderTemplate = (template: string, variables: TemplateVariables): string =>
 	Object.keys(variables).reduce((result, key) => result.replace(new RegExp(`%${key}`, 'g'), String(variables[key])), template);
 const getFormattedTime = (): string => new Date().toLocaleTimeString('en-US', { hour12: false });
+const LOG_LEVEL: string = process.argv.find((arg) => arg.startsWith('--level='))?.split('=')[1];
 
 class Logger {
 	private config: Config;
@@ -30,14 +31,21 @@ class Logger {
 	private level: number;
 	private format: string;
 	private levels: Levels;
+	private groupName: string = '';
 
 	constructor(config: Config) {
 		this.config = config;
 		this.name = config.name || '';
 		this.level = config.level || 6;
 		this.format = config.format || '[%level%]';
+		this.groupSeperator = config.group ? config.group.seperator : ':';
 		this.levels = levels;
 	}
+
+	g = (name: string): Logger => {
+		if (this.config.level > 60) this.groupName = name == '' ? '' : `${this.groupSeperator}${name}`;
+		return this;
+	};
 
 	log = (level: string, ...message: any[]): void => {
 		if (this.config.enabled && this.levels[level].priority <= this.config.level && this.config.level != -1) {
@@ -50,17 +58,19 @@ class Logger {
 					.at(-1);
 
 			const template = renderTemplate(this.format, {
+				group: this.groupName,
 				time: getFormattedTime(),
 				name: this.name,
 				pid: process.pid,
 				level: level,
 				color: this.levels[level].color,
-				file: getLine(),
+				file: getLine() == '' ? '' : ' ' + getLine(),
 			});
 
 			const colored = colorize(template);
 			console.log(colored, ...message);
 		}
+		this.groupName = '';
 	};
 
 	fatal = (...message: any[]): void => this.log('fatal', ...message);
@@ -72,6 +82,9 @@ class Logger {
 	info = (...message: any[]): void => this.log('info', ...message);
 	debug = (...message: any[]): void => this.log('debug', ...message);
 	trace = (...message: any[]): void => this.log('trace', ...message);
+	newline = (): void => process.stdout.write('\n');
+	n = (): void => process.stdout.write('\n');
 }
 
+export { levels, LOG_LEVEL };
 export default Logger;

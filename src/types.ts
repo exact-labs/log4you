@@ -8,6 +8,7 @@ interface Config {
 	level?: number;
 	format?: string;
 	enabled?: boolean;
+	group?: { seperator: string };
 }
 
 export type { Levels, Colors, Level, TemplateVariables, Config };

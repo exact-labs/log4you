@@ -1,6 +1,5 @@
-const { build } = require('esbuild');
-const { Generator } = require('npm-dts');
-const { dependencies } = require('./package.json');
+import dts from 'npm-dts';
+import { build } from 'esbuild';
 
 build({
 	entryPoints: ['src/logger.ts'],
@@ -9,10 +8,9 @@ build({
 	platform: 'node',
 	format: 'esm',
 	outfile: 'dist/logger.js',
-	external: Object.keys(dependencies),
 });
 
-new Generator({
+new dts.Generator({
 	entry: 'src/logger.ts',
 	output: 'dist/logger.d.ts',
 }).generate();
