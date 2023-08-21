@@ -2,6 +2,8 @@
 
 A simple library for logging.
 
+<h1 align="left"><img style="height: 200px;" src=".github/screenshot.png"></h1>
+
 ## Usage
 
 ```ts
@@ -14,5 +16,3 @@ const logger = new Logger({
 	format: '{brightCyan}%time{reset} {white}(app:%name pid:%pid%file) %color[%level]{reset}',
 });
 ```
-
-<img style="width: 1100px;" src="">
