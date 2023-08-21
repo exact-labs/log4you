@@ -1,6 +1,6 @@
 import colors from './colors.js';
 import { isColorSupported } from './tty.js';
-import { Levels, Level, TemplateVariables, Config } from './types';
+import { Levels, TemplateVariables, Config } from './types';
 
 const levels: Levels = {
 	fatal: { priority: 0, color: '{bgBlack}{red}' },
@@ -32,6 +32,7 @@ class Logger {
 	private format: string;
 	private levels: Levels;
 	private groupName: string = '';
+	private groupSeperator: string;
 
 	constructor(config: Config) {
 		this.config = config;
@@ -48,7 +49,7 @@ class Logger {
 	};
 
 	log = (level: string, ...message: any[]): void => {
-		if (this.config.enabled && this.levels[level].priority <= this.config.level && this.config.level != -1) {
+		if (this.config.enabled && this.levels[level].priority <= this.level && this.level != -1) {
 			const getLine = () =>
 				new Error('logger').stack
 					.split('\n')
@@ -82,8 +83,8 @@ class Logger {
 	info = (...message: any[]): void => this.log('info', ...message);
 	debug = (...message: any[]): void => this.log('debug', ...message);
 	trace = (...message: any[]): void => this.log('trace', ...message);
-	newline = (): void => process.stdout.write('\n');
-	n = (): void => process.stdout.write('\n');
+	newline = (): boolean => process.stdout.write('\n');
+	n = (): boolean => process.stdout.write('\n');
 }
 
 export { levels, LOG_LEVEL };
