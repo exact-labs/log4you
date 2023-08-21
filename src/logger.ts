@@ -1,4 +1,5 @@
 import colors from './colors.js';
+import { isColorSupported } from './tty.js';
 import { Levels, Level, TemplateVariables, Config } from './types';
 
 const levels: Levels = {
@@ -14,7 +15,11 @@ const levels: Levels = {
 };
 
 const colorize = (text: string): string =>
-	Object.keys(colors).reduce((result, color) => result.replace(new RegExp(`{${color}}(.*?)`, 'g'), `${colors[color]}$1`), text);
+	Object.keys(colors).reduce(
+		(result, color) => result.replace(new RegExp(`{${color}}(.*?)`, 'g'), isColorSupported ? `${colors[color]}$1` : '$1'),
+		text
+	);
+
 const renderTemplate = (template: string, variables: TemplateVariables): string =>
 	Object.keys(variables).reduce((result, key) => result.replace(new RegExp(`%${key}`, 'g'), String(variables[key])), template);
 const getFormattedTime = (): string => new Date().toLocaleTimeString('en-US', { hour12: false });
