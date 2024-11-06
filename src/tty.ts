@@ -1,4 +1,4 @@
-import * as tty from 'tty';
+import * as tty from 'node:tty';
 
 /* borrowed from: https://github.com/jorgebucaran/colorette */
 const { env = {}, argv = [], platform = '' } = typeof process === 'undefined' ? {} : process;
